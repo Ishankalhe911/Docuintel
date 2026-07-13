@@ -20,11 +20,12 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://docuintel-frontend.vercel.app","https://docuintel-backend-7ock.onrender.com"],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 app.include_router(auth.router, prefix="/auth", tags=["Auth"])
 app.include_router(documents.router, prefix="/documents", tags=["Documents"])
