@@ -1,10 +1,17 @@
 import time
 import io
+import platform
 import pytesseract
 import pymupdf
 from PIL import Image, ImageFilter, ImageEnhance
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# Smart OS Detection!
+if platform.system() == 'Windows':
+    # Use this path when testing locally on your laptop
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+else:
+    # Use this path when running inside Render's Linux Docker container
+    pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
 
 def preprocess_image(img: Image.Image) -> Image.Image:
     # Convert to RGB if needed
@@ -62,6 +69,8 @@ def extract_text(file_path: str, file_type: str) -> dict:
             text = "\n\n".join(all_text)
 
     except Exception as e:
+        # Force Docker to print the error instantly!
+        print(f"🚨 OCR FATAL CRASH: {str(e)}", flush=True)
         return {
             "text": "",
             "page_count": pages,
