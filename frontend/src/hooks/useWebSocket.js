@@ -10,11 +10,11 @@ export const useWebSocket = (documentId) => {
   const connect = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-    // This safely changes http:// to ws:// and https:// to wss://
+    // The "+" sign here is the magic key that deletes ALL accidental slashes
+    const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/+$/, '');
+    
     const wsUrl = baseUrl.replace(/^http/, 'ws');
     const ws = new WebSocket(`${wsUrl}/ws/chat/${documentId}`);
-
     ws.onopen = () => {
       setIsConnected(true);
     };
