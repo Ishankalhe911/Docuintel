@@ -35,6 +35,7 @@ app.include_router(websocket.router, tags=["WebSocket"])
 # ... your CORS middleware setup ...
 
 @app.get("/")
+@app.head("/")
 def health_check():
     return {"status": "alive", "message": "DocuIntel Backend is running!"}
 
