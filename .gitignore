@@ -12,13 +12,19 @@ backend/**/__pycache__/
 
 # Test files
 backend/test_ocr.py
+*.db
+*.sqlite
 
 # Node
 node_modules/
 frontend/node_modules/
 frontend/dist/
 frontend/.env
+<<<<<<< Updated upstream
 
 # OS
 .DS_Store
 Thumbs.db
+=======
+node_modules/
+>>>>>>> Stashed changes
