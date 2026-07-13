@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+alembic
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+pymupdf
+pytesseract
+Pillow
+groq
+pydantic-settings
+python-dotenv
