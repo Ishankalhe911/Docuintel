@@ -39,8 +39,9 @@ export const documentsApi = {
     const response = await api.delete(`/documents/${id}`);
     return response.data;
   },
- getFile: (id) => {
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+getFile: (id) => {
+    // Notice the .replace() added to the very end of this next line!
+    const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '');
     const token = localStorage.getItem('token');
     return `${baseUrl}/documents/${id}/file?token=${token}`;
   },
