@@ -20,7 +20,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://your-vercel-app.vercel.app"],
+    allow_origins=["http://localhost:5173", "https://docuintel-frontend.vercel.app","https://docuintel-backend-7ock.onrender.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
