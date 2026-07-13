@@ -32,7 +32,13 @@ app.include_router(ocr.router, prefix="/documents", tags=["OCR"])
 app.include_router(ai.router, prefix="/documents", tags=["AI"])
 app.include_router(analytics.router, prefix="/analytics", tags=["Analytics"])
 app.include_router(websocket.router, tags=["WebSocket"])
+# ... your CORS middleware setup ...
 
+@app.get("/")
+def health_check():
+    return {"status": "alive", "message": "DocuIntel Backend is running!"}
+
+# ... your other routes ...
 @app.get("/")
 def root():
     return {"message": "DocuIntel API is running"}

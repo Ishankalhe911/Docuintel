@@ -40,9 +40,10 @@ export const documentsApi = {
     return response.data;
   },
  getFile: (id) => {
-  const token = localStorage.getItem('token');
-  return `http://localhost:8000/documents/${id}/file?token=${token}`;
-},
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    const token = localStorage.getItem('token');
+    return `${baseUrl}/documents/${id}/file?token=${token}`;
+  },
 chat: async (id, message) => {
   const response = await api.post(`/documents/${id}/chat`, { message });
   return response.data;
