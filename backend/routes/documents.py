@@ -152,8 +152,9 @@ def get_document_file(
     if not doc:
         raise HTTPException(status_code=404, detail="Document not found")
 
+    
     return FileResponse(
         path=doc.file_path,
         media_type=doc.file_type,
-        filename=doc.filename
+        headers={"Content-Disposition": f'inline; filename="{doc.filename}"'}
     )
