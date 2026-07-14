@@ -19,23 +19,28 @@ export const useWebSocket = (documentId) => {
       setIsConnected(true);
     };
 
-    ws.onmessage = (event) => {
+ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
 
       if (data.type === 'token') {
         currentMessageRef.current += data.content;
+        
+        // 1. Capture the value instantly so React can't lose it in the queue!
+        const capturedText = currentMessageRef.current;
+
         setMessages(prev => {
           const updated = [...prev];
           const last = updated[updated.length - 1];
+          
           if (last && last.role === 'assistant' && last.streaming) {
             updated[updated.length - 1] = {
               ...last,
-              message: currentMessageRef.current
+              message: capturedText // Use the captured constant, NOT the ref!
             };
           } else {
             updated.push({
               role: 'assistant',
-              message: currentMessageRef.current,
+              message: capturedText, // Use the captured constant!
               streaming: true
             });
           }
@@ -44,7 +49,7 @@ export const useWebSocket = (documentId) => {
       }
 
       if (data.type === 'done') {
-        currentMessageRef.current = '';
+        // 2. We REMOVED the ref clearing here to prevent the race condition!
         setIsStreaming(false);
         setMessages(prev => {
           const updated = [...prev];
@@ -58,7 +63,8 @@ export const useWebSocket = (documentId) => {
 
       if (data.type === 'error') {
         setIsStreaming(false);
-        currentMessageRef.current = '';
+        // Error handling can safely clear it since the stream is broken anyway
+        currentMessageRef.current = ''; 
       }
     };
 
